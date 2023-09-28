@@ -6,7 +6,7 @@ namespace Infrastructure;
 
 public static class DependencyInjection
 {
-	public static IServiceCollection AddInfrastructureServices(
+	public static IServiceCollection AddInfrastructure(
 		this IServiceCollection services, IConfiguration configuration)
 	{
 		services.AddDatabaseServices(configuration);
