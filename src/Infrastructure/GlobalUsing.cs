@@ -6,3 +6,4 @@ global using Domain.Common.Specifications;
 global using System.Collections;
 global using Domain.Common.UnitOfWork;
 global using Infrastructure.Common.Database.Bases;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
