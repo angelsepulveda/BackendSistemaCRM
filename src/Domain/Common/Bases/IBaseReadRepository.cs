@@ -1,3 +1,5 @@
+using Domain.Common.Specifications;
+
 namespace Domain.Common.Bases;
 
 public interface IBaseReadRepository<T, TId> where T : BaseEntity<TId>
@@ -12,4 +14,10 @@ public interface IBaseReadRepository<T, TId> where T : BaseEntity<TId>
      Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
      List<Expression<Func<T, object>>> includes = null,
      bool disableTracking = true);
+
+     Task<T?> GetByWithSpec(ISpecification<T> spec);
+
+     Task<IReadOnlyList<T>> GetAllWithSpec(ISpecification<T> spec);
+
+     Task<int> CountAsync(ISpecification<T> spec);
 }

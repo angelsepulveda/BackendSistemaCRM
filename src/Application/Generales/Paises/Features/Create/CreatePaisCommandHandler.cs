@@ -1,6 +1,6 @@
-using Domain.Common.Bases;
-using Domain.Common.UnitOfWork;
+using Application.Generales.Paises.Specifications;
 using Domain.Generales.Paises;
+using Domain.Generales.Paises.Exceptions;
 
 namespace Application.Generales.Paises.Features.Create;
 
@@ -18,11 +18,49 @@ public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand
         _unitOfWork = unitOfWork;
     }
 
-    public Task<BaseReponse<bool>> Handle(
+    public async Task<BaseReponse<bool>> Handle(
         CreatePaisCommand request,
         CancellationToken cancellationToken
     )
     {
-        throw new NotImplementedException();
+
+        var spec = new PaisFindByIdNameSpecification(request.Nombre);
+        var paisExists = await _paisReadRepository.GetByWithSpec(spec);
+
+        if (paisExists != null)
+        {
+            if (paisExists.Activo)
+            {
+                throw new PaisAlreadyExistsException();
+            }
+
+            // Activamos el registro
+            paisExists.ChangeActivo(true);
+            _unitOfWork.WriteRepository<Pais, Guid>().UpdateEntity(paisExists);
+        }
+        else
+        {
+            var pais = new Pais(Guid.NewGuid(), request.Nombre, request.Nacionalidad, true);
+            _unitOfWork.WriteRepository<Pais, Guid>().AddEntity(pais);
+        }
+
+        var result = await _unitOfWork.Complete();
+
+        if (result <= 0)
+        {
+            return new BaseReponse<bool>()
+            {
+                IsSuccess = false,
+                Message = "El registro no se creó correctamente"
+            };
+
+        }
+
+        return new BaseReponse<bool>()
+        {
+            IsSuccess = true,
+            Message = "El registro se creó correctamente"
+        };
+
     }
 }

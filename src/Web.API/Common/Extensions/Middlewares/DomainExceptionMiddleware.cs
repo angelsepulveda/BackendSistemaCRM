@@ -1,9 +1,13 @@
+using System.Net;
+using Domain.Common.Exceptions;
+
 namespace Web.API.Common.Extensions.Middlewares;
-public class ValidationMiddleware
+
+public class DomainExceptionMiddleware
 {
   private readonly RequestDelegate _next;
 
-  public ValidationMiddleware(RequestDelegate next)
+  public DomainExceptionMiddleware(RequestDelegate next)
   {
     _next = next ?? throw new ArgumentNullException(nameof(next));
   }
@@ -14,14 +18,15 @@ public class ValidationMiddleware
     {
       await _next.Invoke(context);
     }
-    catch (ValidationCustomException ex)
+    catch (DomainException ex)
     {
       context.Response.ContentType = "application/json";
+      context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
       await JsonSerializer.SerializeAsync(context.Response.Body, new BaseReponse<object>
       {
         IsSuccess = false,
-        Message = "Errores de Validación",
-        Errors = ex.Errors
+        Message = ex.Message
       });
     }
   }

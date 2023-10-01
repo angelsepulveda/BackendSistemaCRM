@@ -2,8 +2,9 @@ namespace Domain.Generales.Paises;
 
 public class Pais : BaseEntity<Guid>
 {
-    public Pais(string nombre, string nacionalidad, bool activo)
+    public Pais(Guid id, string nombre, string nacionalidad, bool activo)
     {
+        Id = id;
         Nombre = nombre;
         Nacionalidad = nacionalidad;
         Activo = activo;
