@@ -1,6 +1,6 @@
 namespace Application.Common.Bases;
 
-public class BaseReponse<T>
+public class BaseResponse<T>
 {
 	public bool IsSuccess { get; set; }
 	public T? Data { get; set; }

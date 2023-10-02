@@ -5,7 +5,7 @@ using Domain.Generales.Paises;
 namespace Application.Generales.Paises.Features.GetAll;
 
 public sealed class GetAllPaisQueryHandler :
-          IRequestHandler<GetAllPaisQuery, BaseReponse<IReadOnlyList<GetAllPaisRespondeDto>>>
+          IRequestHandler<GetAllPaisQuery, BaseResponse<IReadOnlyList<GetAllPaisRespondeDto>>>
 {
   private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
 
@@ -14,14 +14,14 @@ public sealed class GetAllPaisQueryHandler :
     _paisReadRepository = paisReadRepository;
   }
 
-  public async Task<BaseReponse<IReadOnlyList<GetAllPaisRespondeDto>>> Handle(
+  public async Task<BaseResponse<IReadOnlyList<GetAllPaisRespondeDto>>> Handle(
       GetAllPaisQuery request, CancellationToken cancellationToken)
   {
     var spec = new PaisesEnableSpecification();
 
     var paises = await _paisReadRepository.GetAllWithSpec(spec);
 
-    return new BaseReponse<IReadOnlyList<GetAllPaisRespondeDto>>()
+    return new BaseResponse<IReadOnlyList<GetAllPaisRespondeDto>>()
     {
       IsSuccess = true,
       Data = paises.Select(p => new GetAllPaisRespondeDto

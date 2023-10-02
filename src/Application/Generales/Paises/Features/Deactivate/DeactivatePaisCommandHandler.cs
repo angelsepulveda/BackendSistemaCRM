@@ -4,7 +4,7 @@ using Domain.Generales.Paises.Exceptions;
 
 namespace Application.Generales.Paises.Features.Deactivate;
 
-public sealed class DeactivatePaisCommandHandler : IRequestHandler<DeactivatePaisCommand, BaseReponse<bool>>
+public sealed class DeactivatePaisCommandHandler : IRequestHandler<DeactivatePaisCommand, BaseResponse<bool>>
 {
   private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
   private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +17,7 @@ public sealed class DeactivatePaisCommandHandler : IRequestHandler<DeactivatePai
     _unitOfWork = unitOfWork;
   }
 
-  public async Task<BaseReponse<bool>> Handle(
+  public async Task<BaseResponse<bool>> Handle(
     DeactivatePaisCommand request,
     CancellationToken cancellationToken)
   {
@@ -38,14 +38,14 @@ public sealed class DeactivatePaisCommandHandler : IRequestHandler<DeactivatePai
 
     if (result <= 0)
     {
-      return new BaseReponse<bool>
+      return new BaseResponse<bool>
       {
         IsSuccess = false,
         Message = "El registro no se desactivó correctamente"
       };
     }
 
-    return new BaseReponse<bool>
+    return new BaseResponse<bool>
     {
       IsSuccess = true,
       Message = "El registro se desactivó correctamente"

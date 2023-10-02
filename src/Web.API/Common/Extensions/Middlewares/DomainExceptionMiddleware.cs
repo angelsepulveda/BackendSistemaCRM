@@ -23,7 +23,7 @@ public class DomainExceptionMiddleware
       context.Response.ContentType = "application/json";
       context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-      await JsonSerializer.SerializeAsync(context.Response.Body, new BaseReponse<object>
+      await JsonSerializer.SerializeAsync(context.Response.Body, new BaseResponse<object>
       {
         IsSuccess = false,
         Message = ex.Message

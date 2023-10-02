@@ -5,3 +5,4 @@ global using Application.Common.Exceptions;
 global using System.Linq.Expressions;
 global using Domain.Common.Bases;
 global using Domain.Common.UnitOfWork;
+global using Application.Common.Specifications;

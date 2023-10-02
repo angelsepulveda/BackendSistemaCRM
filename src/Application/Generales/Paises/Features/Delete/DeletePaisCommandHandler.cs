@@ -4,7 +4,7 @@ using Domain.Generales.Paises.Exceptions;
 
 namespace Application.Generales.Paises.Features.Delete;
 
-public sealed class DeletePaisCommandHandler : IRequestHandler<DeletePaisCommand, BaseReponse<bool>>
+public sealed class DeletePaisCommandHandler : IRequestHandler<DeletePaisCommand, BaseResponse<bool>>
 {
   private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
   private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +17,7 @@ public sealed class DeletePaisCommandHandler : IRequestHandler<DeletePaisCommand
     _unitOfWork = unitOfWork;
   }
 
-  public async Task<BaseReponse<bool>> Handle(
+  public async Task<BaseResponse<bool>> Handle(
     DeletePaisCommand request,
    CancellationToken cancellationToken)
   {
@@ -41,14 +41,14 @@ public sealed class DeletePaisCommandHandler : IRequestHandler<DeletePaisCommand
 
     if (result <= 0)
     {
-      return new BaseReponse<bool>
+      return new BaseResponse<bool>
       {
         IsSuccess = false,
         Message = "El registro no se eliminó correctamente"
       };
     }
 
-    return new BaseReponse<bool>
+    return new BaseResponse<bool>
     {
       IsSuccess = true,
       Message = "El registro se eliminó correctamente"

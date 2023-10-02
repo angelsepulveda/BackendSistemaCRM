@@ -4,7 +4,7 @@ using Domain.Generales.Paises.Exceptions;
 
 namespace Application.Generales.Paises.Features.Activate;
 
-public sealed class ActivatePaisCommandHandler : IRequestHandler<ActivatePaisCommand, BaseReponse<bool>>
+public sealed class ActivatePaisCommandHandler : IRequestHandler<ActivatePaisCommand, BaseResponse<bool>>
 {
   private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
   private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +17,7 @@ public sealed class ActivatePaisCommandHandler : IRequestHandler<ActivatePaisCom
     _unitOfWork = unitOfWork;
   }
 
-  public async Task<BaseReponse<bool>> Handle(
+  public async Task<BaseResponse<bool>> Handle(
     ActivatePaisCommand request,
     CancellationToken cancellationToken)
   {
@@ -43,14 +43,14 @@ public sealed class ActivatePaisCommandHandler : IRequestHandler<ActivatePaisCom
 
     if (result <= 0)
     {
-      return new BaseReponse<bool>
+      return new BaseResponse<bool>
       {
         IsSuccess = false,
         Message = "El registro no se activó correctamente"
       };
     }
 
-    return new BaseReponse<bool>
+    return new BaseResponse<bool>
     {
       IsSuccess = true,
       Message = "El registro se activó correctamente"

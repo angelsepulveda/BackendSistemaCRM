@@ -6,8 +6,6 @@ using Application.Generales.Paises.Features.GetAll;
 using Application.Generales.Paises.Features.GetById;
 using Application.Generales.Paises.Features.Select;
 using Application.Generales.Paises.Features.Update;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Web.API.Generales.Controllers;
 
@@ -22,7 +20,7 @@ public class PaisController : ControllerBase
   }
 
   [HttpGet]
-  public async Task<IActionResult> ListPaises()
+  public async Task<IActionResult> List()
   {
     var response = await _mediator.Send(new GetAllPaisQuery());
 
@@ -31,7 +29,7 @@ public class PaisController : ControllerBase
 
 
   [HttpGet("select")]
-  public async Task<IActionResult> SelectPaises()
+  public async Task<IActionResult> Select()
   {
     var response = await _mediator.Send(new SelectPaisQuery());
 
@@ -39,7 +37,7 @@ public class PaisController : ControllerBase
   }
 
   [HttpGet("{id:Guid}")]
-  public async Task<IActionResult> GetByIdPais(Guid id)
+  public async Task<IActionResult> GetById(Guid id)
   {
     var response = await _mediator.Send(new GetByIdPaisQuery(id));
 
@@ -47,7 +45,7 @@ public class PaisController : ControllerBase
   }
 
   [HttpPost]
-  public async Task<IActionResult> CreatePais([FromBody] CreatePaisCommand command)
+  public async Task<IActionResult> Create([FromBody] CreatePaisCommand command)
   {
     var response = await _mediator.Send(command);
 
@@ -56,7 +54,7 @@ public class PaisController : ControllerBase
 
 
   [HttpPut("edit")]
-  public async Task<IActionResult> UpdatePais([FromBody] UpdatePaisCommand command)
+  public async Task<IActionResult> Update([FromBody] UpdatePaisCommand command)
   {
     var response = await _mediator.Send(command);
 
@@ -64,7 +62,7 @@ public class PaisController : ControllerBase
   }
 
   [HttpPut("deactivate")]
-  public async Task<IActionResult> DeactivatePais([FromBody] DeactivatePaisCommand command)
+  public async Task<IActionResult> Deactivate([FromBody] DeactivatePaisCommand command)
   {
     var response = await _mediator.Send(command);
 
@@ -72,7 +70,7 @@ public class PaisController : ControllerBase
   }
 
   [HttpPut("activate")]
-  public async Task<IActionResult> ActivatePais([FromBody] ActivatePaisCommand command)
+  public async Task<IActionResult> Activate([FromBody] ActivatePaisCommand command)
   {
     var response = await _mediator.Send(command);
 
@@ -80,7 +78,7 @@ public class PaisController : ControllerBase
   }
 
   [HttpDelete("{id:Guid}")]
-  public async Task<IActionResult> DeletePais(Guid id)
+  public async Task<IActionResult> Delete(Guid id)
   {
     var response = await _mediator.Send(new DeletePaisCommand(id));
 

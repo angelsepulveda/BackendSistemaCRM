@@ -6,7 +6,7 @@ using Domain.Generales.Paises.Exceptions;
 namespace Application.Generales.Paises.Features.GetById;
 
 public sealed class GetByIdPaisQueryHandler :
-        IRequestHandler<GetByIdPaisQuery, BaseReponse<GetByIdPaisResponseDto>>
+        IRequestHandler<GetByIdPaisQuery, BaseResponse<GetByIdPaisResponseDto>>
 {
   private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
 
@@ -15,7 +15,7 @@ public sealed class GetByIdPaisQueryHandler :
     _paisReadRepository = paisReadRepository;
   }
 
-  public async Task<BaseReponse<GetByIdPaisResponseDto>> Handle(
+  public async Task<BaseResponse<GetByIdPaisResponseDto>> Handle(
     GetByIdPaisQuery request,
     CancellationToken cancellationToken)
   {
@@ -28,7 +28,7 @@ public sealed class GetByIdPaisQueryHandler :
       throw new PaisNotFoundException();
     }
 
-    return new BaseReponse<GetByIdPaisResponseDto>()
+    return new BaseResponse<GetByIdPaisResponseDto>()
     {
       IsSuccess = true,
       Data = new GetByIdPaisResponseDto(pais.Id, pais.Nombre, pais.Nacionalidad),

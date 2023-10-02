@@ -4,7 +4,7 @@ using Domain.Generales.Paises.Exceptions;
 
 namespace Application.Generales.Paises.Features.Create;
 
-public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand, BaseReponse<bool>>
+public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand, BaseResponse<bool>>
 {
     private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<BaseReponse<bool>> Handle(
+    public async Task<BaseResponse<bool>> Handle(
         CreatePaisCommand request,
         CancellationToken cancellationToken
     )
@@ -48,7 +48,7 @@ public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand
 
         if (result <= 0)
         {
-            return new BaseReponse<bool>()
+            return new BaseResponse<bool>()
             {
                 IsSuccess = false,
                 Message = "El registro no se creó correctamente"
@@ -56,7 +56,7 @@ public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand
 
         }
 
-        return new BaseReponse<bool>()
+        return new BaseResponse<bool>()
         {
             IsSuccess = true,
             Message = "El registro se creó correctamente"

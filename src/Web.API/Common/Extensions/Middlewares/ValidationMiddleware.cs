@@ -17,7 +17,7 @@ public class ValidationMiddleware
     catch (ValidationCustomException ex)
     {
       context.Response.ContentType = "application/json";
-      await JsonSerializer.SerializeAsync(context.Response.Body, new BaseReponse<object>
+      await JsonSerializer.SerializeAsync(context.Response.Body, new BaseResponse<object>
       {
         IsSuccess = false,
         Message = "Errores de Validación",

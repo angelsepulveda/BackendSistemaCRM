@@ -5,7 +5,7 @@ using Domain.Generales.Paises.Exceptions;
 
 namespace Application.Generales.Paises.Features.Update;
 
-public sealed class UpdatePaisCommandHandler : IRequestHandler<UpdatePaisCommand, BaseReponse<bool>>
+public sealed class UpdatePaisCommandHandler : IRequestHandler<UpdatePaisCommand, BaseResponse<bool>>
 {
   private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
   private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ public sealed class UpdatePaisCommandHandler : IRequestHandler<UpdatePaisCommand
     _unitOfWork = unitOfWork;
   }
 
-  public async Task<BaseReponse<bool>> Handle(
+  public async Task<BaseResponse<bool>> Handle(
     UpdatePaisCommand request,
     CancellationToken cancellationToken)
   {
@@ -52,14 +52,14 @@ public sealed class UpdatePaisCommandHandler : IRequestHandler<UpdatePaisCommand
 
     if (result <= 0)
     {
-      return new BaseReponse<bool>
+      return new BaseResponse<bool>
       {
         IsSuccess = false,
         Message = "El registro no se actualizó correctamente"
       };
     }
 
-    return new BaseReponse<bool>
+    return new BaseResponse<bool>
     {
       IsSuccess = true,
       Message = "El registro se actualizó correctamente"
