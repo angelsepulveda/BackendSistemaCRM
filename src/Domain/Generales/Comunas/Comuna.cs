@@ -4,8 +4,9 @@ namespace Domain.Generales.Comunas;
 
 public class Comuna : BaseEntity<Guid>
 {
-    public Comuna(string nombre, Guid regionId, bool activo)
+    public Comuna(Guid id, string nombre, Guid regionId, bool activo)
     {
+        Id = id;
         Nombre = nombre;
         RegionId = regionId;
         Activo = activo;

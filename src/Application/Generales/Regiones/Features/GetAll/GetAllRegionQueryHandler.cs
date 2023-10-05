@@ -30,6 +30,7 @@ public sealed class GetAllRegionQueryHandler :
                 p.Id,
                 p.Nombre,
                 p.Pais.Nombre,
+                p.Activo,
                 p.CreatedAt ?? DateTime.Now
               )).ToList().AsReadOnly(),
       Message = "Consulta Exitosa!!"
