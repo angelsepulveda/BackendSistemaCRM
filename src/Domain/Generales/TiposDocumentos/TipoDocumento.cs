@@ -1,9 +1,10 @@
 namespace Domain.Generales.TiposDocumentos;
 
-public class TipoDocumento : BaseEntity<int>
+public class TipoDocumento : BaseEntity<Guid>
 {
-    public TipoDocumento(string nombre, string descripcion, bool activo)
+    public TipoDocumento(Guid id, string nombre, string descripcion, bool activo)
     {
+        Id = id;
         Nombre = nombre;
         Descripcion = descripcion;
         Activo = activo;

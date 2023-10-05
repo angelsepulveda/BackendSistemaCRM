@@ -4,8 +4,6 @@ namespace Application.Generales.Comunas.Specifications;
 
 public class ComunasEnableSpecification : BaseSpecification<Comuna>
 {
-  public ComunasEnableSpecification() : base(x => x.Activo == true)
-  {
-
-  }
+    public ComunasEnableSpecification()
+        : base(x => x.Activo == true) { }
 }
