@@ -4,7 +4,8 @@ using Domain.Generales.Paises.Exceptions;
 
 namespace Application.Generales.Paises.Features.Create;
 
-public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand, BaseResponse<bool>>
+internal sealed class CreatePaisCommandHandler
+    : IRequestHandler<CreatePaisCommand, BaseResponse<bool>>
 {
     private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -23,7 +24,6 @@ public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand
         CancellationToken cancellationToken
     )
     {
-
         var spec = new PaisFindByIdNameSpecification(request.Nombre);
         var paisExists = await _paisReadRepository.GetByWithSpec(spec);
 
@@ -53,7 +53,6 @@ public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand
                 IsSuccess = false,
                 Message = "El registro no se creó correctamente"
             };
-
         }
 
         return new BaseResponse<bool>()
@@ -61,6 +60,5 @@ public sealed class CreatePaisCommandHandler : IRequestHandler<CreatePaisCommand
             IsSuccess = true,
             Message = "El registro se creó correctamente"
         };
-
     }
 }

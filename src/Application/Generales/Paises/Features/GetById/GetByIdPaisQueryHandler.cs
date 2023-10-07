@@ -5,35 +5,35 @@ using Domain.Generales.Paises.Exceptions;
 
 namespace Application.Generales.Paises.Features.GetById;
 
-public sealed class GetByIdPaisQueryHandler :
-        IRequestHandler<GetByIdPaisQuery, BaseResponse<GetByIdPaisResponseDto>>
+internal sealed class GetByIdPaisQueryHandler
+    : IRequestHandler<GetByIdPaisQuery, BaseResponse<GetByIdPaisResponseDto>>
 {
-  private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
+    private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
 
-  public GetByIdPaisQueryHandler(IBaseReadRepository<Pais, Guid> paisReadRepository)
-  {
-    _paisReadRepository = paisReadRepository;
-  }
-
-  public async Task<BaseResponse<GetByIdPaisResponseDto>> Handle(
-    GetByIdPaisQuery request,
-    CancellationToken cancellationToken)
-  {
-    var spec = new PaisFindByIdEnableSpecification(request.Id);
-
-    var pais = await _paisReadRepository.GetByWithSpec(spec);
-
-    if (pais == null)
+    public GetByIdPaisQueryHandler(IBaseReadRepository<Pais, Guid> paisReadRepository)
     {
-      throw new PaisNotFoundException();
+        _paisReadRepository = paisReadRepository;
     }
 
-    return new BaseResponse<GetByIdPaisResponseDto>()
+    public async Task<BaseResponse<GetByIdPaisResponseDto>> Handle(
+        GetByIdPaisQuery request,
+        CancellationToken cancellationToken
+    )
     {
-      IsSuccess = true,
-      Data = new GetByIdPaisResponseDto(pais.Id, pais.Nombre, pais.Nacionalidad),
-      Message = "Consulta exitosa!!"
-    };
+        var spec = new PaisFindByIdEnableSpecification(request.Id);
 
-  }
+        var pais = await _paisReadRepository.GetByWithSpec(spec);
+
+        if (pais == null)
+        {
+            throw new PaisNotFoundException();
+        }
+
+        return new BaseResponse<GetByIdPaisResponseDto>()
+        {
+            IsSuccess = true,
+            Data = new GetByIdPaisResponseDto(pais.Id, pais.Nombre, pais.Nacionalidad),
+            Message = "Consulta exitosa!!"
+        };
+    }
 }

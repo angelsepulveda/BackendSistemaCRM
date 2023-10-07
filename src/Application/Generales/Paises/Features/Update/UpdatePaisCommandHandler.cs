@@ -2,15 +2,15 @@ using Application.Generales.Paises.Specifications;
 using Domain.Generales.Paises;
 using Domain.Generales.Paises.Exceptions;
 
-namespace Application.Generales.Paises.Features.Deactivate;
+namespace Application.Generales.Paises.Features.Update;
 
-internal sealed class DeactivatePaisCommandHandler
-    : IRequestHandler<DeactivatePaisCommand, BaseResponse<bool>>
+internal sealed class UpdatePaisCommandHandler
+    : IRequestHandler<UpdatePaisCommand, BaseResponse<bool>>
 {
     private readonly IBaseReadRepository<Pais, Guid> _paisReadRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public DeactivatePaisCommandHandler(
+    public UpdatePaisCommandHandler(
         IBaseReadRepository<Pais, Guid> paisReadRepository,
         IUnitOfWork unitOfWork
     )
@@ -20,7 +20,7 @@ internal sealed class DeactivatePaisCommandHandler
     }
 
     public async Task<BaseResponse<bool>> Handle(
-        DeactivatePaisCommand request,
+        UpdatePaisCommand request,
         CancellationToken cancellationToken
     )
     {
@@ -33,7 +33,19 @@ internal sealed class DeactivatePaisCommandHandler
             throw new PaisNotFoundException();
         }
 
-        paisUpdated.ChangeActivo(false);
+        if (paisUpdated.Nombre != request.Nombre)
+        {
+            var specNombre = new PaisFindByIdNameSpecification(request.Nombre);
+
+            var paisExists = await _paisReadRepository.GetByWithSpec(specNombre);
+
+            if (paisExists != null && paisExists.Activo)
+            {
+                throw new PaisAlreadyExistsException();
+            }
+        }
+
+        paisUpdated.Update(request.Nombre, request.Nacionalidad);
 
         _unitOfWork.WriteRepository<Pais, Guid>().UpdateEntity(paisUpdated);
 
@@ -44,14 +56,14 @@ internal sealed class DeactivatePaisCommandHandler
             return new BaseResponse<bool>
             {
                 IsSuccess = false,
-                Message = "El registro no se desactivó correctamente"
+                Message = "El registro no se actualizó correctamente"
             };
         }
 
         return new BaseResponse<bool>
         {
             IsSuccess = true,
-            Message = "El registro se desactivó correctamente"
+            Message = "El registro se actualizó correctamente"
         };
     }
 }
