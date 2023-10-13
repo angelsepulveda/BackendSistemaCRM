@@ -9,14 +9,14 @@ public class Colaborador : BaseEntity<Guid>
         Guid tipoDocumentoId,
         string numDocumento,
         DateTime fechaNacimiento,
-        ColaboradorGenero genero,
-        ColaboradorEstadoCivil estadoCivil,
+        string genero,
+        string estadoCivil,
         string emailPersonal,
         string telefono,
         string emailAcceso,
         string password,
-        ColaboradorEstado estado,
-        ColaboradorRol rol,
+        string estado,
+        string rol,
         Guid comunaId,
         string direccion
     )
@@ -27,16 +27,16 @@ public class Colaborador : BaseEntity<Guid>
         TipoDocumentoId = tipoDocumentoId;
         NumDocumento = numDocumento;
         FechaNacimiento = fechaNacimiento;
-        Genero = genero;
-        EstadoCivil = estadoCivil;
+        Genero = SetGeneroFromString(genero);
+        EstadoCivil = SetEstadoCivilFromString(estadoCivil);
         EmailPersonal = emailPersonal;
         Telefono = telefono;
         EmailAcceso = emailAcceso;
         Password = password;
-        Estado = estado;
+        Estado = SetEstadoFromString(estado);
         ComunaId = comunaId;
         Direccion = direccion;
-        Rol = rol;
+        Rol = SetRolFromString(rol);
     }
 
     public Colaborador() { }
@@ -60,10 +60,11 @@ public class Colaborador : BaseEntity<Guid>
     public virtual Comuna Comuna { get; set; }
     public virtual TipoDocumento TipoDocumento { get; set; }
 
-    public void ChangeColaboradorEstado(ColaboradorEstado value)
+    public void ChangeColaboradorEstado(string value)
     {
-        if (Estado != value)
-            Estado = value;
+        var estadoEnum = SetEstadoFromString(value);
+        if (Estado != estadoEnum)
+            Estado = estadoEnum;
     }
 
     public void Update(
@@ -72,13 +73,13 @@ public class Colaborador : BaseEntity<Guid>
         Guid tipoDocumentoId,
         string numDocumento,
         DateTime fechaNacimiento,
-        ColaboradorGenero genero,
-        ColaboradorEstadoCivil estadoCivil,
+        string genero,
+        string estadoCivil,
         string emailPersonal,
         string telefono,
         string emailAcceso,
         string password,
-        ColaboradorRol rol,
+        string rol,
         Guid comunaId,
         string direccion
     )
@@ -98,11 +99,13 @@ public class Colaborador : BaseEntity<Guid>
         if (FechaNacimiento != fechaNacimiento)
             FechaNacimiento = fechaNacimiento;
 
-        if (Genero != genero)
-            Genero = genero;
+        var generoEnum = SetGeneroFromString(genero);
+        if (Genero != generoEnum)
+            Genero = generoEnum;
 
-        if (EstadoCivil != estadoCivil)
-            EstadoCivil = estadoCivil;
+        var estadoCivilEnum = SetEstadoCivilFromString(estadoCivil);
+        if (EstadoCivil != estadoCivilEnum)
+            EstadoCivil = estadoCivilEnum;
 
         if (EmailPersonal != emailPersonal)
             EmailPersonal = emailPersonal;
@@ -122,7 +125,48 @@ public class Colaborador : BaseEntity<Guid>
         if (Direccion != direccion)
             Direccion = direccion;
 
-        if (Rol != rol)
-            Rol = rol;
+        var rolEnum = SetRolFromString(rol);
+        if (Rol != rolEnum)
+            Rol = rolEnum;
+    }
+
+    private ColaboradorEstadoCivil SetEstadoCivilFromString(string estadoCivilStr)
+    {
+        if (!Enum.TryParse(estadoCivilStr, out ColaboradorEstadoCivil estadoCivil))
+        {
+            throw new ArgumentException("Valor de estado civil no válido", nameof(estadoCivilStr));
+        }
+
+        return estadoCivil;
+    }
+
+    private ColaboradorEstado SetEstadoFromString(string estadoStr)
+    {
+        if (!Enum.TryParse(estadoStr, out ColaboradorEstado estado))
+        {
+            throw new ColaboradorEstadoCivilInvalidException();
+        }
+
+        return estado;
+    }
+
+    private ColaboradorGenero SetGeneroFromString(string generoStr)
+    {
+        if (!Enum.TryParse(generoStr, out ColaboradorGenero genero))
+        {
+            throw new ColaboradorGeneroInvalidException();
+        }
+
+        return genero;
+    }
+
+    private ColaboradorRol SetRolFromString(string rolStr)
+    {
+        if (!Enum.TryParse(rolStr, out ColaboradorRol rol))
+        {
+            throw new ColaboradorRolInvalidException();
+        }
+
+        return rol;
     }
 }

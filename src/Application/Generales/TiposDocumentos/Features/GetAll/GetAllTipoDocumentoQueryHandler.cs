@@ -1,5 +1,4 @@
 using Application.Generales.TiposDocumentos.Responses;
-using Application.Generales.TiposDocumentos.Specifications;
 using Domain.Generales.TiposDocumentos;
 
 namespace Application.Generales.TiposDocumentos.Features.GetAll;
@@ -26,9 +25,7 @@ internal sealed class GetAllTipoDocumentoQueryHandler
         CancellationToken cancellationToken
     )
     {
-        var spec = new TiposDocumentosEnableSpecification();
-
-        var tiposDocumentos = await _tipoDocumentoReadRepository.GetAllWithSpec(spec);
+        var tiposDocumentos = await _tipoDocumentoReadRepository.GetAllAsync();
 
         return new BaseResponse<IReadOnlyList<GetAllTipoDocumentoResponseDto>>()
         {

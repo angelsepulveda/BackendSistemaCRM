@@ -53,9 +53,13 @@ public class ColaboradorConfiguration : IEntityTypeConfiguration<Colaborador>
             .HasColumnName("estado_civil")
             .IsRequired();
 
-        builder.Property(c => c.EmailPersonal).HasColumnName("email_personal").HasMaxLength(256);
+        builder
+            .Property(c => c.EmailPersonal)
+            .HasColumnName("email_personal")
+            .HasMaxLength(256)
+            .IsRequired();
 
-        builder.Property(c => c.FechaNacimiento).HasColumnName("fecha_nacimiento");
+        builder.Property(c => c.FechaNacimiento).HasColumnName("fecha_nacimiento").IsRequired();
 
         builder
             .Property(c => c.EmailAcceso)
@@ -69,7 +73,11 @@ public class ColaboradorConfiguration : IEntityTypeConfiguration<Colaborador>
 
         builder.Property(c => c.ComunaId).HasColumnName("comuna_id").IsRequired();
 
-        builder.Property(p => p.Direccion).HasColumnName("direccion").HasMaxLength(256);
+        builder
+            .Property(p => p.Direccion)
+            .HasColumnName("direccion")
+            .HasMaxLength(256)
+            .IsRequired();
 
         builder.Property(p => p.Estado).HasColumnName("estado");
 

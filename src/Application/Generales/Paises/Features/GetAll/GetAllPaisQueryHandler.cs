@@ -1,5 +1,4 @@
 using Application.Generales.Paises.Responses;
-using Application.Generales.Paises.Specifications;
 using Domain.Generales.Paises;
 
 namespace Application.Generales.Paises.Features.GetAll;
@@ -19,9 +18,7 @@ internal sealed class GetAllPaisQueryHandler
         CancellationToken cancellationToken
     )
     {
-        var spec = new PaisesEnableSpecification();
-
-        var paises = await _paisReadRepository.GetAllWithSpec(spec);
+        var paises = await _paisReadRepository.GetAllAsync();
 
         return new BaseResponse<IReadOnlyList<GetAllPaisRespondeDto>>()
         {

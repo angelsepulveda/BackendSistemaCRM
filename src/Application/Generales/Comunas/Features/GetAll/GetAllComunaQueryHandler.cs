@@ -1,5 +1,4 @@
 using Application.Generales.Comunas.Responses;
-using Application.Generales.Comunas.Specifications;
 using Domain.Generales.Comunas;
 
 namespace Application.Generales.Comunas.Features.GetAll;
@@ -20,9 +19,7 @@ public sealed class GetAllComunaQueryHandler
         CancellationToken cancellationToken
     )
     {
-        var spec = new ComunasWithRelationsSpecification();
-
-        var comunas = await _comunaReadRepository.GetAllWithSpec(spec);
+        var comunas = await _comunaReadRepository.GetAllAsync();
 
         return new BaseResponse<IReadOnlyList<GetAllComunaResponseDto>>()
         {
