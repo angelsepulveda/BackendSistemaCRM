@@ -1,7 +1,8 @@
 using Domain.Common.Services;
+using Domain.Usuarios.Colaboradores.Services;
 using Infrastructure.Common.Database.UnitOfWork;
 using Infrastructure.Common.Services;
-using Microsoft.Extensions.Configuration;
+using Infrastructure.Usuarios.Colaboradores.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure;
@@ -14,7 +15,7 @@ public static class DependencyInjection
     )
     {
         services.AddDatabaseServices(configuration);
-        services.AddScoped<IHashPassword, HashPassword>();
+        services.AddServicesInfrastructure();
 
         return services;
     }
@@ -39,6 +40,14 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IBaseReadRepository<,>), typeof(BaseReadRepository<,>));
         services.AddScoped(typeof(IBaseWriteRepository<,>), typeof(BaseWriteRepository<,>));
+
+        return services;
+    }
+
+    private static IServiceCollection AddServicesInfrastructure(this IServiceCollection services)
+    {
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IHashPassword, HashPassword>();
 
         return services;
     }

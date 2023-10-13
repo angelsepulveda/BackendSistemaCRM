@@ -7,3 +7,5 @@ global using System.Collections;
 global using Domain.Common.UnitOfWork;
 global using Infrastructure.Common.Database.Bases;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.Extensions.Configuration;
+global using System.Text;
